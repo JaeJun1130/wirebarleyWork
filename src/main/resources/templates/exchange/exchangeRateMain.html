@@ -2,18 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <title>content1</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <link rel="stylesheet" href="/css/exchange/reset.css" />
     <link rel="stylesheet" href="/css/exchange/exchangeRateMain.css" />
-    <script type="text/javascript" src="/js/exchange/exchangeRateMain.js"></script>
 </head>
 <body>
     <div class="container">
         <h2 class="title">
             환율 계산
         </h2>
-        <div>
-            <span>송금국가 : 미국(USD)</span>
-            <span>[[${countryList}]]</span>
+            <div class="subContainer">
+            <div class="item"><span>송금국가 :&nbsp 미국(USD)</span></div>
+            <div class="item">수취국가 :&nbsp
+                <select class="select" name="countryList" id="countryList">
+                    <option th:each="country: ${countryList}"
+                        th:selected="${country.country == 'KRW'}"
+                        th:value="${country.country}"
+                        th:text="${country.countryName}" >
+                    </option>
+                </select>
+            </div>
+            <div class="item exchange">환율 :&nbsp<span>1000&nbsp</span><dd>KRW</dd>/USD</div>
+            <div class="item">송금액 :&nbsp<input type="text" value="1000"> USD</div>
+            <button class="myButton" type="submit">Submit</button>
         </div>
     </div>
 </body>
+<script type="text/javascript" src="/js/exchange/exchangeRateMain.js"></script>
 </html>

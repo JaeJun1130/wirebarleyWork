@@ -11,9 +11,13 @@ public class FixRecipientCountry implements RecipientCountry{
     final static List<CountryDto> memoryCountry = new ArrayList<>();
     @Override
     public List<CountryDto> findByAll() {
-        memoryCountry.add(new CountryDto("한국(KRW)","KRW"));
-        memoryCountry.add(new CountryDto("일본(JPY)","JPY"));
-        memoryCountry.add(new CountryDto("필리민(PHP)","PHP"));
+        if(memoryCountry.isEmpty()){
+            memoryCountry.add(new CountryDto("한국(KRW)","KRW"));
+            memoryCountry.add(new CountryDto("일본(JPY)","JPY"));
+            memoryCountry.add(new CountryDto("필리민(PHP)","PHP"));
+        }else{
+            return memoryCountry;
+        }
         return memoryCountry;
     }
 }

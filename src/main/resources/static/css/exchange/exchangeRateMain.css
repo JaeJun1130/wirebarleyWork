@@ -3,6 +3,41 @@
     height: 100%;
 }
 
+.subContainer{
+    width: 70%;
+    height: 70%;
+    display: inline-grid;
+}
+
+.item{
+    align-items: center;
+    display: flex;
+    padding-bottom: 30px;
+    font-size: 25px;
+}
+
+input{
+    height: 20px;
+}
+
+.select {
+    width: 30%;
+    padding: 10px; /* 내부여백 */
+    padding-left: 12px;
+    border: 1px solid #ddd;
+    background: url(/image/arrow_down_18dp.png) no-repeat right 50%; /* 화살표 위치 */
+    background-size: 30px; /* 화살표 크기 */
+    border-radius: 4px;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-size: 12px;
+    color: #000;
+    outline:none;
+}
+.select:hover {border: 1px solid #aaa;} /* 마우스오버 */
+
 .title{
     color: #fff;
     padding: 0.7rem 0.7rem 0.7rem 2rem;
@@ -12,6 +47,27 @@
     margin-bottom: 30px;
 }
 
-span {
-    font-size: 35px;
+.myButton {
+    width: 110px;
+    box-shadow:inset 0px 0px 14px -3px #f2fadc;
+    background: #dbe6c4 linear-gradient(to bottom, #dbe6c4 5%, #9ba892 100%);
+    border-radius:6px;
+    border:1px solid #b2b8ad;
+    display:inline-block;
+    cursor:pointer;
+    color:#757d6f;
+    font-family: Arial, serif;
+    font-size:15px;
+    font-weight:bold;
+    padding:6px 24px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #ced9bf;
 }
+.myButton:hover {
+    background: #9ba892 linear-gradient(to bottom, #9ba892 5%, #dbe6c4 100%);
+}
+.myButton:active {
+    position:relative;
+    top:1px;
+}
+
