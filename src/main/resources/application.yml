@@ -8,5 +8,10 @@ spring:
   devtools:
     livereload:
       enabled: true
+
+api:
+  accessKey: 80854038bedf5f85838d387a0d26649c
 server:
   port: 8888
+
+

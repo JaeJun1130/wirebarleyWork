@@ -9,6 +9,15 @@
     display: inline-grid;
 }
 
+.errorContainer{
+    margin-left: 10px;
+}
+
+.errorMsg{
+    color: red;
+    font-size: 15px;
+}
+
 .item{
     align-items: center;
     display: flex;

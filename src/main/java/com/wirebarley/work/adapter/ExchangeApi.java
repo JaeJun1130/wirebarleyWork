@@ -1,38 +1,75 @@
 package com.wirebarley.work.adapter;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.wirebarley.work.common.ResCode;
 import com.wirebarley.work.handler.ex.CustomApiException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+import javax.annotation.PostConstruct;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @RequiredArgsConstructor
 public class ExchangeApi {
     private final WebClient webClient;
 
-    public ResExchangeDto send() throws Exception {
+    @Value("${api.accessKey}")
+    private String accessKey;
+
+    private static Map<String, ResExchangeDto> dataMap = new ConcurrentHashMap<>();
+
+    private ResExchangeDto send(ReqExchangeDto reqExchangeDto) {
         try {
-            ResExchangeDto resDto = webClient.get().
-                    uri(uri -> uri.queryParam("access_key", "80854038bedf5f85838d387a0d26649c")
-                            .queryParam("currencies", "KRW")
+            ResExchangeDto resExchangeDto = webClient.get().
+                    uri(uri -> uri.queryParam("access_key", accessKey)
+                            .queryParam("currencies", reqExchangeDto.getRecipientCountry())
                             .queryParam("source", "USD")
                             .queryParam("format", "1")
                             .build()
                     )
                     .accept(MediaType.APPLICATION_JSON)
                     .retrieve()
-                    .bodyToFlux(ResExchangeDto.class).blockLast();
+                    .onStatus(HttpStatus::is4xxClientError, response -> Mono.error(() -> new CustomApiException(ResCode.REQUEST_API_FALL.getValue())))
+                    .onStatus(HttpStatus::is5xxServerError, response -> Mono.error(() -> new CustomApiException(ResCode.REQUEST_API_FALL.getValue())))
+                    .bodyToFlux(ResExchangeDto.class)
+                    .blockFirst();
 
-//            ObjectMapper mapper = new ObjectMapper();
-//            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); //파라미터Map에서 DTO에 들어있지 않는 변수가 있어도 무시함.
-//            ResExchangeDto resExchangeDto = mapper.convertValue(resDto, ResExchangeDto.class);
-//            System.out.println("resExchangeDto = " + resExchangeDto.toString());
-            return resDto;
+            if(resExchangeDto == null || "false".equals(resExchangeDto.getSuccess())) throw new CustomApiException(ResCode.REQUEST_API_FALL.getValue());
+            
+            dataMap.putIfAbsent(CACHE_KEY + reqExchangeDto.getRecipientCountry(),resExchangeDto);
+            return dataMap.get(CACHE_KEY + reqExchangeDto.getRecipientCountry());
         } catch (Exception e){
             e.printStackTrace();
             throw new CustomApiException(e.getMessage());
         }
+    }
+
+    public ResExchangeDto getExchangeRate(ReqExchangeDto reqExchangeDto) {
+        ResExchangeDto cachedData = dataMap.get(CACHE_KEY + reqExchangeDto.getRecipientCountry());
+
+        if(cachedData == null) {
+            log.info("cache 데이터가 아님");
+            return send(reqExchangeDto);
+        } else {
+            log.info("cache 데이터 사용됨");
+            return cachedData;
+        }
+    }
+
+    //1분마다 캐시 비움
+    @Scheduled(cron = "0 */1 * * * *")
+    public void refreshCache() {
+        log.info("cache deleted");
+        dataMap.clear();
     }
 }
