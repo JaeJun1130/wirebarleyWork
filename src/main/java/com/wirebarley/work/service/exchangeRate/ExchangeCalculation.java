@@ -3,9 +3,8 @@ package com.wirebarley.work.service.exchangeRate;
 import com.wirebarley.work.adapter.ExchangeApi;
 import com.wirebarley.work.adapter.ReqExchangeDto;
 import com.wirebarley.work.adapter.ResExchangeDto;
-import com.wirebarley.work.service.AbstractCurrency;
-import com.wirebarley.work.service.Currency;
-import com.wirebarley.work.service.CurrencyFactory;
+import com.wirebarley.work.service.currency.Currency;
+import com.wirebarley.work.service.currency.CurrencyFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
