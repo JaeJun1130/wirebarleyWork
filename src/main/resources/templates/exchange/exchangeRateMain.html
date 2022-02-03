@@ -15,19 +15,22 @@
             <div class="item"><span>송금국가 :&nbsp 미국(USD)</span></div>
             <div class="item">수취국가 :&nbsp
                 <select class="select" name="recipientCountryList" id="recipientCountryList">
+                    <option value="">선택</option>
                     <option th:each="recipientCountry: ${recipientCountryList}"
-                        th:selected="${recipientCountry.recipientCountry == 'KRW'}"
                         th:value="${recipientCountry.recipientCountry}"
                         th:text="${recipientCountry.recipientCountryName}" >
                     </option>
                 </select>
-                <div class="errorContainer">
-                    <span class="errorMsg"></span>
-                </div>
             </div>
-            <div class="item exchange">환율 :&nbsp<span id="exchangeRate">1,000.00&nbsp</span><dd>KRW</dd>/USD</div>
-            <div class="item">송금액 :&nbsp<input type="text" value="1000"> USD</div>
-            <button class="myButton" type="submit">Submit</button>
+            <div class="item exchange">환율 :&nbsp<span id="exchangeRate">1,000.00&nbsp</span><dd id="country">KRW</dd>/USD</div>
+            <div class="item">송금액 :&nbsp<input id="amount" type="text" value="1000"> USD</div>
+            <button class="myButton" type="submit" onclick="receiptAmountCalculate()">Submit</button>
+        </div>
+
+        <div class="resContainer">
+        </div>
+
+        <div class="errorContainer">
         </div>
     </div>
 

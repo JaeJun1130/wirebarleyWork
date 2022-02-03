@@ -10,7 +10,8 @@ spring:
       enabled: true
 
 api:
-  accessKey: 80854038bedf5f85838d387a0d26649c
+  accessKey: 840f03ba69cb0731dab72fc8f80fed29
+  #  accessKey: ee50cd7cc73c9b7a7bb3d9617cfb6b9c 월 요청 초과...
 server:
   port: 8888
 

@@ -10,12 +10,20 @@
 }
 
 .errorContainer{
-    margin-left: 10px;
+    margin-top: 10px;
 }
 
-.errorMsg{
+.errorContainer > span{
+    display: flex;
     color: red;
     font-size: 15px;
+}
+
+.resContainer > span{
+    display: flex;
+    font-size: 25px;
+    font-weight: 600;
+    margin-top: 35px;
 }
 
 .item{

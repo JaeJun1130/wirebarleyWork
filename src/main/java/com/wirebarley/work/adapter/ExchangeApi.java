@@ -1,6 +1,5 @@
 package com.wirebarley.work.adapter;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.wirebarley.work.common.ResCode;
 import com.wirebarley.work.handler.ex.CustomApiException;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.PostConstruct;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -28,7 +25,7 @@ public class ExchangeApi {
 
     private static Map<String, ResExchangeDto> dataMap = new ConcurrentHashMap<>();
 
-    private ResExchangeDto send(ReqExchangeDto reqExchangeDto) {
+    private ResExchangeDto sendApi(ReqExchangeDto reqExchangeDto) {
         try {
             ResExchangeDto resExchangeDto = webClient.get().
                     uri(uri -> uri.queryParam("access_key", accessKey)
@@ -44,8 +41,11 @@ public class ExchangeApi {
                     .bodyToFlux(ResExchangeDto.class)
                     .blockFirst();
 
-            if(resExchangeDto == null || "false".equals(resExchangeDto.getSuccess())) throw new CustomApiException(ResCode.REQUEST_API_FALL.getValue());
-            
+            if(resExchangeDto == null || "false".equals(resExchangeDto.getSuccess())) {
+                log.error("sendApi Fail 여러번 요청이 한번에 들어오면 Api 에서 팅겨냄");
+                throw new CustomApiException(ResCode.REQUEST_API_FALL.getValue());
+            }
+
             dataMap.putIfAbsent(CACHE_KEY + reqExchangeDto.getRecipientCountry(),resExchangeDto);
             return dataMap.get(CACHE_KEY + reqExchangeDto.getRecipientCountry());
         } catch (Exception e){
@@ -59,7 +59,7 @@ public class ExchangeApi {
 
         if(cachedData == null) {
             log.info("cache 데이터가 아님");
-            return send(reqExchangeDto);
+            return sendApi(reqExchangeDto);
         } else {
             log.info("cache 데이터 사용됨");
             return cachedData;
