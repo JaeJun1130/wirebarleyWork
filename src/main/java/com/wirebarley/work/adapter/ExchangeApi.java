@@ -1,6 +1,6 @@
 package com.wirebarley.work.adapter;
 
-import com.wirebarley.work.common.ResCode;
+import com.wirebarley.work.commons.ResCode;
 import com.wirebarley.work.handler.ex.CustomApiException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

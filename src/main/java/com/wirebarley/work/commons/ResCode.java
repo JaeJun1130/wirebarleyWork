@@ -1,4 +1,4 @@
-package com.wirebarley.work.common;
+package com.wirebarley.work.commons;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

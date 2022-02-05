@@ -1,6 +1,6 @@
 package com.wirebarley.work.handler;
 
-import com.wirebarley.work.common.ResCode;
+import com.wirebarley.work.commons.ResCode;
 import com.wirebarley.work.dto.CMResDto;
 import com.wirebarley.work.handler.ex.CustomApiException;
 import com.wirebarley.work.handler.ex.CustomValidationApiException;
