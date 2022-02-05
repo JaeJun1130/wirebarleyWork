@@ -1,9 +1,9 @@
-
 let space = '\u00A0';
 
 let recipientCountry;
 $("#recipientCountryList").on('change', ()=> {
     recipientCountry = $("#recipientCountryList").val();
+    if(recipientCountry == "") return false;
     $(".errorMsg").remove();
 
     /**
@@ -20,7 +20,6 @@ $("#recipientCountryList").on('change', ()=> {
         data : JSON.stringify(data),
         dataType : "json"
     }).done(res=>{
-        console.log(res);
         let data = res.data.quotes;
         let value = Object.keys(data)[0];
 
@@ -56,8 +55,6 @@ function receiptAmountCalculate() {
         data : JSON.stringify(data),
         dataType : "json"
     }).done(res=>{
-        console.log(res.data);
-
         $(".resContainer").append(`<span class="resMsg">수취금액은 ${exchangeRateFormat(res.data)} ${$("#country").text()} 입니다.</span>`)
     }).fail(error=>{
         let code = error.responseJSON.code;
