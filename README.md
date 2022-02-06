@@ -6,7 +6,7 @@ Spring Boot
 ### 개발 환경
 - Java 11
 - Spring Boot 2.6.3
-- Thymeleaf, JS, jQuery
+- Thymeleaf, JS
 
 ### 기능 구현
 [ V ] 프론트엔트 화면 개발  
