@@ -54,7 +54,7 @@ public class ExchangeApi {
         }
     }
 
-    public ResExchangeDto getExchangeRate(ReqExchangeDto reqExchangeDto) {
+    public ResExchangeDto exchangeRateApiMain(ReqExchangeDto reqExchangeDto) {
         ResExchangeDto cachedData = dataMap.get(CACHE_KEY + reqExchangeDto.getRecipientCountry());
 
         if(cachedData == null) {

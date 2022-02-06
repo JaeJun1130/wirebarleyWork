@@ -3,7 +3,7 @@ package com.wirebarley.work.service.currency;
 public class CurrencyFactory {
 
 
-    public static Currency create(String recipientCountry) {
+    public static Currency getCountryCurrency(String recipientCountry) {
         if("JPY".equals(recipientCountry))
             return new UsdToJpyCurrency();
         if("KRW".equals(recipientCountry))

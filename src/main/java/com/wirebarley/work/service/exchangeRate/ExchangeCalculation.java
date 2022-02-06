@@ -16,8 +16,8 @@ public class ExchangeCalculation {
     private final ExchangeApi exchangeApi;
 
     public BigDecimal calculation(ReqExchangeDto reqExchangeDto){
-        ResExchangeDto exchangeRate = exchangeApi.getExchangeRate(reqExchangeDto);
-        Currency currency = CurrencyFactory.create(reqExchangeDto.getRecipientCountry());
+        ResExchangeDto exchangeRate = exchangeApi.exchangeRateApiMain(reqExchangeDto);
+        Currency currency = CurrencyFactory.getCountryCurrency(reqExchangeDto.getRecipientCountry());
         return currency.calculate(reqExchangeDto.getAmount(), exchangeRate);
     }
 }

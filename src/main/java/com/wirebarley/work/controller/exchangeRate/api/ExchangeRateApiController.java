@@ -26,13 +26,13 @@ public class ExchangeRateApiController {
 
     @ApiValidationAdvice
     @PostMapping(value="/ajax/requestExchangeRate")
-    public ResponseEntity<?> exchangeRateMain(@RequestBody @Valid ReqExchangeDto reqExchangeDto,
+    public ResponseEntity<?> exchangeRateApiMain(@RequestBody @Valid ReqExchangeDto reqExchangeDto,
                                               BindingResult bindingResult){
 
         return new ResponseEntity<>(new CMResDto<>(
                 ResCode.REQUEST_API_SUCCESS.getCode(),
                 ResCode.REQUEST_API_SUCCESS.getValue(),
-                exchangeApi.getExchangeRate(reqExchangeDto)), HttpStatus.OK);
+                exchangeApi.exchangeRateApiMain(reqExchangeDto)), HttpStatus.OK);
     }
 
     @ApiValidationAdvice
